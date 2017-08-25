@@ -265,9 +265,6 @@ void leerFicheroIF(char* namefich)
 	file.close();
 }
 
-/*
-	DESDE CIN
-*/
 
 void leerFichero()
 {
