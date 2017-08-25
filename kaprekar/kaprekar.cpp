@@ -26,7 +26,7 @@ void completarCeros(std::vector<int>& digitos)
 /*
 	bubble short
 */
-void ordAsc(std::vector<int>& digitos)
+void ordAscB(std::vector<int>& digitos)
 {
 	for (unsigned int i = 0; i < digitos.size() - 1; ++i)
 	{
@@ -42,7 +42,8 @@ void ordAsc(std::vector<int>& digitos)
 	}
 }
 
-void ordDesc(std::vector<int>& digitos)
+
+void ordDescB(std::vector<int>& digitos)
 {
 	for (unsigned int i = 0; i < digitos.size() - 1; ++i)
 	{
@@ -58,7 +59,64 @@ void ordDesc(std::vector<int>& digitos)
 	}
 
 	completarCeros(digitos);
+}
 
+void merge (std::vector<int>& vl, 
+		  std::vector<int>& vr,
+		  std::vector<int>& vs)
+{
+
+	int s = 0;
+	int l = 0;
+	int r = 0;
+
+	while (l < vl.size() && r < vr.size())
+	{
+		if (vl[l] < vr[r])
+			vs[s++] = vl[l++];
+			
+		else
+			vs[s++] = vr[r++];
+	}
+	
+	while (l < vl.size())
+		vs[s++] = vl[l++];
+	
+	while (r < vr.size())
+		vs[s++] = vr[r++];
+}
+
+std::vector<int> merge_sort(std::vector<int> v)
+{
+	unsigned n = v.size();
+	
+	if (n < 2)
+		return v;
+	
+	unsigned mid = n / 2;
+	unsigned sleft = mid;
+	unsigned sright = n - mid;
+	
+	unsigned i;
+	
+	std::vector<int> vleft;
+	std::vector<int> vright;
+	std::vector<int> salida;
+	
+	vleft.resize(sleft);
+	vright.resize(sright);
+		
+	for (i = 0; i < sleft; ++i)
+		vleft.push_back(v[i]);
+	
+	for (i = mid; i < n; ++i)
+		vright.push_back(v[i]);
+	
+	vleft = merge_sort(vleft);
+	vright = merge_sort(vright);
+	merge(vleft, vright, v);
+	
+	return v;
 }
 
 /*
@@ -135,10 +193,10 @@ bool repdigit(int numero)
 		std::vector<int> vnumero;
 		vnumero = tovector(numero);
 
-		ordDesc(vnumero);
+		ordDescB(vnumero);
 		desc = toint(vnumero);
 
-		ordAsc(vnumero);		
+		ordAscB(vnumero);		
 		asc = toint(vnumero);		
 
 		int operar = 0;
@@ -149,10 +207,10 @@ bool repdigit(int numero)
 
 			vnumero = tovector(operar);
 
-			ordDesc(vnumero);
+			ordDescB(vnumero);
 			desc = toint(vnumero);
 			
-			ordAsc(vnumero);
+			ordAscB(vnumero);
 			asc = toint(vnumero);
 
 			vueltas++;
@@ -166,22 +224,19 @@ bool repdigit(int numero)
 */
 int iteraciones(int numero)
 {
-	int vueltas = 0;
-
 	if (numero == 6174)
 		return 0;
 
-	if (repdigit(numero) && numero >= 1000)
+	else if (repdigit(numero) && numero >= 1000)
 		return 8;
 
 	else
 		return kaprekar(numero);
 }
 
-/*
-	leer cada cifra y obtener su valor de salida
-*/
-void leerFichero(char* namefich)
+
+
+void leerFicheroIF(char* namefich)
 {
 	std::string texto;
 
@@ -198,9 +253,11 @@ void leerFichero(char* namefich)
 		if (file.eof())
 			break;
 			
-		numero = std::stoi(texto);
-
-		std::cout << iteraciones(numero) << std::endl;
+		else
+		{
+			numero = std::stoi(texto);
+			std::cout << iteraciones(numero) << std::endl;
+		}
 	}
 
 	std::cout << std::endl;
@@ -208,22 +265,52 @@ void leerFichero(char* namefich)
 	file.close();
 }
 
+/*
+	DESDE CIN
+*/
+
+void leerFichero()
+{
+	std::string linea;
+	int numero;
+
+
+	while(!std::cin.eof())
+	{
+		std::cin.get();
+		std::cin >> numero;
+		std::cout << iteraciones(numero) << std::endl;
+	}
+	
+	std::cout << std::endl;
+}
+
 int main(int argc, char *argv[])
 {
-	double t0;
-	double t1;
-	double time;
+	//leerFichero();
+	
+	
+	std::vector<int> l = {0,0};
+	std::vector<int> r = {0,0};
+	std::vector<int> s = {0,0,0,0};
+	
+	std::vector<int> ordena = {8,5,4,1};
+	
+	merge_sort(ordena);
 
-	t0 = clock();
+	for (int it : s)
+		std::cout << it;
+		
 	
-	leerFichero(argv[1]);
-	
-	t1 = clock();
-	
-	time = (t1-t0) / CLOCKS_PER_SEC;
-	
-	std::cout << "tiempo CPU: " << time << std::endl;
 }
+
+
+
+
+
+
+
+
 
 
 
