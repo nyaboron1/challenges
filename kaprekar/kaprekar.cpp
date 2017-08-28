@@ -2,9 +2,9 @@
 #include <iostream>
 #include <vector>
 
-void completarCeros(std::vector<int>& digitos)
+void completarCeros(std::vector<int16_t>& digitos)
 {
-	int completar;
+	int16_t completar;
 
 	completar = 4 - digitos.size();
 
@@ -18,15 +18,15 @@ void completarCeros(std::vector<int>& digitos)
 /*
 	bubble short
 */
-void ordAscB(std::vector<int>& digitos)
+void ordAscB(std::vector<int16_t>& digitos)
 {
-	for (unsigned int i = 0; i < digitos.size() - 1; ++i)
+	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
 	{
-		for (unsigned int j = i+1; j < digitos.size(); ++j)
+		for (uint16_t j = i+1; j < digitos.size(); ++j)
 		{
 			if (digitos[i] > digitos[j])
 			{
-				int aux = digitos[i];
+				int16_t aux = digitos[i];
 				digitos[i] = digitos[j];
 				digitos[j] = aux;
 			}
@@ -35,15 +35,15 @@ void ordAscB(std::vector<int>& digitos)
 }
 
 
-void ordDescB(std::vector<int>& digitos)
+void ordDescB(std::vector<int16_t>& digitos)
 {
-	for (unsigned int i = 0; i < digitos.size() - 1; ++i)
+	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
 	{
-		for (unsigned int j = i + 1; j < digitos.size(); ++j)
+		for (uint16_t j = i + 1; j < digitos.size(); ++j)
 		{
 			if (digitos[i] < digitos[j])
 			{
-				int aux = digitos[i];
+				int16_t aux = digitos[i];
 				digitos[i] = digitos[j];
 				digitos[j] = aux;
 			}
@@ -53,9 +53,9 @@ void ordDescB(std::vector<int>& digitos)
 	completarCeros(digitos);
 }
 
-std::vector<int> tovector(int numero)
+std::vector<int16_t> tovector(int16_t numero)
 {
-	std::vector<int> digitos;
+	std::vector<int16_t> digitos;
 	
 	while (numero > 0)
 	{
@@ -67,13 +67,13 @@ std::vector<int> tovector(int numero)
 }
 
 
-int toint(std::vector<int>& digitos)
+int16_t toint16_t(std::vector<int16_t>& digitos)
 {
 
-	int factor = 1;
-	int numero = 0;
+	int16_t factor = 1;
+	int16_t numero = 0;
 
-	for (int i = digitos.size() - 1; i >= 0; --i)
+	for (int16_t i = digitos.size() - 1; i >= 0; --i)
 	{
 		numero += factor * digitos[i];
 		factor *= 10;
@@ -83,12 +83,12 @@ int toint(std::vector<int>& digitos)
 }
 
 
-bool repdigit(int& numero)
+bool repdigit(int16_t& numero)
 {
 
-	int num = numero;
+	int16_t num = numero;
 
-	int ultima = num % 10;
+	int16_t ultima = num % 10;
 	
 	bool es = true;
 
@@ -106,35 +106,34 @@ bool repdigit(int& numero)
 }
 
 
- int kaprekar(int& numero)
+ int16_t kaprekar(int16_t& numero)
  {
- 		int desc;
-		int asc;
-		int vueltas = 0;
+ 		int16_t desc;
+		int16_t asc;
+		int16_t vueltas = 0;
+		int16_t operar = 0;
 
-		std::vector<int> vnumero;
+		std::vector<int16_t> vnumero;
 		vnumero = tovector(numero);
 
 		ordDescB(vnumero);
-		desc = toint(vnumero);
+		desc = toint16_t(vnumero);
 
 		ordAscB(vnumero);		
-		asc = toint(vnumero);		
-
-		int operar = 0;
+		asc = toint16_t(vnumero);		
 		
-		while(vueltas <= 6 && operar != 6174)
+		while (operar != 6174)
 		{
 			operar = desc - asc;
 
 			vnumero = tovector(operar);
 
 			ordDescB(vnumero);
-			desc = toint(vnumero);
+			desc = toint16_t(vnumero);
 			
 			ordAscB(vnumero);
-			asc = toint(vnumero);
-
+			asc = toint16_t(vnumero);
+			
 			vueltas++;
 		}
 		
@@ -144,7 +143,7 @@ bool repdigit(int& numero)
 /*
 	obtener el valor de salida de un numero leido
 */
-int iteraciones(int& numero)
+int16_t iteraciones(int16_t& numero)
 {
 	if (numero == 6174)
 		return 0;
@@ -159,7 +158,7 @@ int iteraciones(int& numero)
 
 void leerFichero()
 {
-	int numero;
+	int16_t numero;
 
 	while(!std::cin.eof())
 	{
@@ -175,16 +174,4 @@ void leerFichero()
 int main(int argc, char *argv[])
 {
 	leerFichero();
-
 }
-
-
-
-
-
-
-
-
-
-
-
