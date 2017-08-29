@@ -2,7 +2,7 @@
 #include <iostream>
 #include <vector>
 
-void completarCeros(std::vector<int16_t>& digitos)
+void completarCeros(std::vector<uint8_t>& digitos)
 {
 	int16_t completar;
 
@@ -18,7 +18,7 @@ void completarCeros(std::vector<int16_t>& digitos)
 /*
 	bubble short
 */
-void ordAscB(std::vector<int16_t>& digitos)
+void ordAscB(std::vector<uint8_t>& digitos)
 {
 	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
 	{
@@ -35,7 +35,7 @@ void ordAscB(std::vector<int16_t>& digitos)
 }
 
 
-void ordDescB(std::vector<int16_t>& digitos)
+void ordDescB(std::vector<uint8_t>& digitos)
 {
 	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
 	{
@@ -53,9 +53,9 @@ void ordDescB(std::vector<int16_t>& digitos)
 	completarCeros(digitos);
 }
 
-std::vector<int16_t> tovector(int16_t numero)
+std::vector<uint8_t> tovector(int16_t numero)
 {
-	std::vector<int16_t> digitos;
+	std::vector<uint8_t> digitos;
 	
 	while (numero > 0)
 	{
@@ -67,7 +67,7 @@ std::vector<int16_t> tovector(int16_t numero)
 }
 
 
-int16_t toint16_t(std::vector<int16_t>& digitos)
+int16_t toint16_t(std::vector<uint8_t>& digitos)
 {
 
 	int16_t factor = 1;
@@ -113,7 +113,7 @@ bool repdigit(int16_t& numero)
 		int16_t vueltas = 0;
 		int16_t operar = 0;
 
-		std::vector<int16_t> vnumero;
+		std::vector<uint8_t> vnumero;
 		vnumero = tovector(numero);
 
 		ordDescB(vnumero);
