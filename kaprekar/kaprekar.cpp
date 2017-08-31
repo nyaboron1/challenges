@@ -15,44 +15,6 @@ void completarCeros(std::vector<uint8_t>& digitos)
 	}
 }
 
-/*
-	bubble short
-*/
-void ordAscB(std::vector<uint8_t>& digitos)
-{
-	for (uint8_t i = 0; i < digitos.size() - 1; ++i)
-	{
-		for (uint8_t j = i+1; j < digitos.size(); ++j)
-		{
-			if (digitos[i] > digitos[j])
-			{
-				uint8_t aux = digitos[i];
-				digitos[i] = digitos[j];
-				digitos[j] = aux;
-			}
-		}
-	}
-}
-
-
-void ordDescB(std::vector<uint8_t>& digitos)
-{
-	for (uint8_t i = 0; i < digitos.size() - 1; ++i)
-	{
-		for (uint8_t j = i + 1; j < digitos.size(); ++j)
-		{
-			if (digitos[i] < digitos[j])
-			{
-				int16_t aux = digitos[i];
-				digitos[i] = digitos[j];
-				digitos[j] = aux;
-			}
-		}
-	}
-
-	completarCeros(digitos);
-}
-
 void mergeDsc (std::vector<uint8_t>& vl, 
 		  	std::vector<uint8_t>& vr,
 		  	std::vector<uint8_t>& vs)
@@ -76,6 +38,8 @@ void mergeDsc (std::vector<uint8_t>& vl,
 		
 		while (r < vr.size())
 		vs[s++] = vr[r++];
+		
+		completarCeros(vs);
 }
 
 void mergeAsc (std::vector<uint8_t>& vl, 
@@ -194,31 +158,33 @@ bool repdigit(int16_t& numero)
  {
  		int16_t desc;
 		int16_t asc;
-		int16_t vueltas = 0;
 		int16_t operar = 0;
+		
+		int8_t vueltas = 0;
 
 		std::vector<uint8_t> vnumero;
 		vnumero = tovector(numero);
 
-		mergeSort(vnumero, false);
-		desc = toint16_t(vnumero);
-
 		mergeSort(vnumero, true);		
-		asc = toint16_t(vnumero);		
+		asc = toint16_t(vnumero);
+
+		mergeSort(vnumero, false);
+		desc = toint16_t(vnumero);		
+		
 		
 		while (operar != 6174)
 		{
 			operar = desc - asc;
-
+			
 			vnumero = tovector(operar);
-
-			mergeSort(vnumero, false);
-			desc = toint16_t(vnumero);
 			
 			mergeSort(vnumero, true);
 			asc = toint16_t(vnumero);
 			
-			vueltas++;
+			mergeSort(vnumero, false);
+			desc = toint16_t(vnumero);
+			
+			++vueltas;
 		}
 		
 		return vueltas;
@@ -227,7 +193,7 @@ bool repdigit(int16_t& numero)
 /*
 	obtener el valor de salida de un numero leido
 */
-int16_t iteraciones(int16_t& numero)
+int16_t iteraciones(int16_t numero)
 {
 	if (numero == 6174)
 		return 0;
@@ -258,23 +224,6 @@ void leerFichero()
 int main(int argc, char *argv[])
 {
 	leerFichero();
-	
-	
-	std::vector<uint8_t> vs;
-	std::vector<uint8_t> vl;
-	std::vector<uint8_t> vr;
-	
-	/*
-	// vs = { 0, 0, 0, 0, 0, 0, 0, 0 };
-	
-	vs = { 4,5,1,8 };	
-	
-	mergeSort(vs,true);
-	
-	for (uint8_t it : vs)
-		std::cout << (int)it;
-	*/	
-		
 }
 
 
