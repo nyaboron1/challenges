@@ -11,7 +11,7 @@ void completarCeros(std::vector<uint8_t>& digitos)
 	while (completar != 0)
 	{
 		digitos.push_back(0);
-		completar--;	
+		--completar;	
 	}
 }
 
@@ -190,9 +190,7 @@ bool repdigit(int16_t& numero)
 		return vueltas;
  }
  
-/*
-	obtener el valor de salida de un numero leido
-*/
+
 int16_t iteraciones(int16_t numero)
 {
 	if (numero == 6174)
