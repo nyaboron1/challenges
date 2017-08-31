@@ -20,13 +20,13 @@ void completarCeros(std::vector<uint8_t>& digitos)
 */
 void ordAscB(std::vector<uint8_t>& digitos)
 {
-	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
+	for (uint8_t i = 0; i < digitos.size() - 1; ++i)
 	{
-		for (uint16_t j = i+1; j < digitos.size(); ++j)
+		for (uint8_t j = i+1; j < digitos.size(); ++j)
 		{
 			if (digitos[i] > digitos[j])
 			{
-				int16_t aux = digitos[i];
+				uint8_t aux = digitos[i];
 				digitos[i] = digitos[j];
 				digitos[j] = aux;
 			}
@@ -37,9 +37,9 @@ void ordAscB(std::vector<uint8_t>& digitos)
 
 void ordDescB(std::vector<uint8_t>& digitos)
 {
-	for (uint16_t i = 0; i < digitos.size() - 1; ++i)
+	for (uint8_t i = 0; i < digitos.size() - 1; ++i)
 	{
-		for (uint16_t j = i + 1; j < digitos.size(); ++j)
+		for (uint8_t j = i + 1; j < digitos.size(); ++j)
 		{
 			if (digitos[i] < digitos[j])
 			{
@@ -51,6 +51,90 @@ void ordDescB(std::vector<uint8_t>& digitos)
 	}
 
 	completarCeros(digitos);
+}
+
+void mergeDsc (std::vector<uint8_t>& vl, 
+		  	std::vector<uint8_t>& vr,
+		  	std::vector<uint8_t>& vs)
+{
+
+	uint8_t s = 0;
+	uint8_t l = 0;
+	uint8_t r = 0;
+
+	while (l < vl.size() && r < vr.size())
+	{
+		if (vl[l] > vr[r])
+		vs[s++] = vl[l++];
+			
+		else
+			vs[s++] = vr[r++];
+	}
+	
+		while (l < vl.size())
+		vs[s++] = vl[l++];
+		
+		while (r < vr.size())
+		vs[s++] = vr[r++];
+}
+
+void mergeAsc (std::vector<uint8_t>& vl, 
+		  	std::vector<uint8_t>& vr,
+		  	std::vector<uint8_t>& vs)
+{
+
+	uint8_t s = 0;
+	uint8_t l = 0;
+	uint8_t r = 0;
+
+	while (l < vl.size() && r < vr.size())
+	{
+		if (vl[l] < vr[r])
+		vs[s++] = vl[l++];
+			
+		else
+			vs[s++] = vr[r++];
+	}
+	
+		while (l < vl.size())
+		vs[s++] = vl[l++];
+		
+		while (r < vr.size())
+		vs[s++] = vr[r++];
+}
+
+void mergeSort (std::vector<uint8_t>& v, bool flag)
+{
+	uint16_t vsize = v.size();	
+	
+	if (vsize < 2)
+		return;
+
+	else
+	{
+		uint16_t mid = v.size() / 2;
+		uint16_t ls = mid;
+		uint16_t rs = vsize - mid;
+	
+		std::vector<uint8_t> lv;
+		std::vector<uint8_t> rv;
+
+		for (uint8_t i = 0; i < ls; ++i)
+			lv.push_back(v[i]);
+		
+		for (uint8_t i = mid; i < vsize; ++i)
+			rv.push_back(v[i]);
+		
+		mergeSort(lv,flag);
+		mergeSort(rv,flag);
+		
+		if (flag)
+			mergeAsc(lv, rv, v);
+		else
+			mergeDsc(lv, rv, v);
+
+
+	}
 }
 
 std::vector<uint8_t> tovector(int16_t numero)
@@ -116,10 +200,10 @@ bool repdigit(int16_t& numero)
 		std::vector<uint8_t> vnumero;
 		vnumero = tovector(numero);
 
-		ordDescB(vnumero);
+		mergeSort(vnumero, false);
 		desc = toint16_t(vnumero);
 
-		ordAscB(vnumero);		
+		mergeSort(vnumero, true);		
 		asc = toint16_t(vnumero);		
 		
 		while (operar != 6174)
@@ -128,10 +212,10 @@ bool repdigit(int16_t& numero)
 
 			vnumero = tovector(operar);
 
-			ordDescB(vnumero);
+			mergeSort(vnumero, false);
 			desc = toint16_t(vnumero);
 			
-			ordAscB(vnumero);
+			mergeSort(vnumero, true);
 			asc = toint16_t(vnumero);
 			
 			vueltas++;
@@ -174,4 +258,46 @@ void leerFichero()
 int main(int argc, char *argv[])
 {
 	leerFichero();
+	
+	
+	std::vector<uint8_t> vs;
+	std::vector<uint8_t> vl;
+	std::vector<uint8_t> vr;
+	
+	/*
+	// vs = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	
+	vs = { 4,5,1,8 };	
+	
+	mergeSort(vs,true);
+	
+	for (uint8_t it : vs)
+		std::cout << (int)it;
+	*/	
+		
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
