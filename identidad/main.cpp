@@ -1,9 +1,11 @@
 #include <iostream>
+#include <iterator>
+
 #include <string>
 
-
-void leerFichero ()
+void leerFicheroPrueba ()
 {
+	
 	int16_t size;
 
 	std::cin >> size;
@@ -39,8 +41,46 @@ void leerFichero ()
 	
 }
 
+
+void leerFicheroIterador ()
+{
+	int** values;
+
+	std::istream_iterator<int16_t> eos;
+  	std::istream_iterator<int16_t> iit (std::cin);
+
+  	int16_t size = *iit;
+  	iit++;
+
+	while ( size != 0 )
+	{
+		values = new int* [size];
+
+		for (int i = 0; i < size; ++i)
+		  values[i] = new int[size];
+
+
+		for ( int i = 0; i < size; ++i )
+		{
+			for ( int j = 0; j < size; ++j ) 
+			{
+				values[i][j] = *iit;
+				iit++;
+			}
+			std::cout<< std::endl;
+		}
+
+		size = *iit;
+		iit++;
+
+		delete[] values;
+	}
+}
+
+
+
 int main ()
 {
-	leerFichero();
-
+	//leerFichero();
+	leerFicheroIterador();
 }
