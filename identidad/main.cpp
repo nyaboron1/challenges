@@ -1,50 +1,44 @@
 #include <iostream>
 #include <iterator>
 
-#include <string>
-
-void leerFicheroPrueba ()
+void print ( int16_t** matrix, int16_t size )
 {
-	
-	int16_t size;
-
-	std::cin >> size;
-	std::cin.ignore();
-
-	int** values;
-	values = new int* [size];
-
-	for (int i = 0; i < size; ++i) {
-	  values[i] = new int[size];
-	}
-
-	std::cout << size << std::endl;
-
-	std::string linea;
-	int16_t aux;
-	while ( size != 0 )
+	for ( int i = 0; i < size; ++i )
 	{
-		aux = size;
-		while ( aux > 0 )
-		{
-			std::getline( std::cin, linea);
-			std::cout << linea << std::endl;
+		for ( int j = 0; j < size; ++j )
+			std::cout << matrix[i][j]; 
 
-			aux--;
-		}
-
-		std::cin >> size;
-		std::cin.ignore();
-
-		std::cout<< size << std::endl;
+		std::cout << std::endl;
 	}
-	
 }
 
 
+bool identidad ( int16_t** matrix, int16_t size )
+{
+	int16_t aux = 0;
+	int16_t aux1 = 0;
+
+	for ( int i = 0; i < size; ++i )
+	{
+		for ( int j = 0; j < size; ++j ) 
+		{
+			if ( i == j && matrix[i][j] != 1 )
+				aux++;
+			
+			else if ( matrix[i][j] != 0 && (i != j))
+				aux1++;
+		}
+	}
+
+	if ( aux != 0 || aux1 != 0 )
+		return false;
+	else
+		return true;
+}
+
 void leerFicheroIterador ()
 {
-	int** values;
+	int16_t** values;
 
 	std::istream_iterator<int16_t> eos;
   	std::istream_iterator<int16_t> iit (std::cin);
@@ -54,10 +48,12 @@ void leerFicheroIterador ()
 
 	while ( size != 0 )
 	{
-		values = new int* [size];
+		//std::cout << "size:" << size << std::endl;
 
-		for (int i = 0; i < size; ++i)
-		  values[i] = new int[size];
+		values = new int16_t* [size];
+
+		for ( int i = 0; i < size; ++i )
+		  values[i] = new int16_t[size];
 
 
 		for ( int i = 0; i < size; ++i )
@@ -67,8 +63,12 @@ void leerFicheroIterador ()
 				values[i][j] = *iit;
 				iit++;
 			}
-			std::cout<< std::endl;
 		}
+		
+		if ( identidad(values, size) == true )
+			std::cout << "SI" << std::endl;
+		else
+			std::cout << "NO" << std::endl;
 
 		size = *iit;
 		iit++;
@@ -81,6 +81,5 @@ void leerFicheroIterador ()
 
 int main ()
 {
-	//leerFichero();
 	leerFicheroIterador();
 }
