@@ -1,19 +1,7 @@
 #include <iostream>
 #include <iterator>
 
-void print ( int16_t** matrix, int16_t size )
-{
-	for ( int i = 0; i < size; ++i )
-	{
-		for ( int j = 0; j < size; ++j )
-			std::cout << matrix[i][j]; 
-
-		std::cout << std::endl;
-	}
-}
-
-
-bool identidad ( int16_t** matrix, int16_t size )
+void identidad ( int16_t** matrix, int16_t size )
 {
 	int16_t aux = 0;
 	int16_t aux1 = 0;
@@ -25,18 +13,18 @@ bool identidad ( int16_t** matrix, int16_t size )
 			if ( i == j && matrix[i][j] != 1 )
 				aux++;
 			
-			else if ( matrix[i][j] != 0 && (i != j))
+			else if ( matrix[i][j] != 0 && (i != j) )
 				aux1++;
 		}
 	}
 
 	if ( aux != 0 || aux1 != 0 )
-		return false;
+		std::cout << "NO" << std::endl;
 	else
-		return true;
+		std::cout << "SI" << std::endl;
 }
 
-void leerFicheroIterador ()
+void leerFichero ()
 {
 	int16_t** values;
 
@@ -48,8 +36,6 @@ void leerFicheroIterador ()
 
 	while ( size != 0 )
 	{
-		//std::cout << "size:" << size << std::endl;
-
 		values = new int16_t* [size];
 
 		for ( int i = 0; i < size; ++i )
@@ -65,10 +51,7 @@ void leerFicheroIterador ()
 			}
 		}
 		
-		if ( identidad(values, size) == true )
-			std::cout << "SI" << std::endl;
-		else
-			std::cout << "NO" << std::endl;
+		identidad(values, size);
 
 		size = *iit;
 		iit++;
@@ -77,9 +60,7 @@ void leerFicheroIterador ()
 	}
 }
 
-
-
 int main ()
 {
-	leerFicheroIterador();
+	leerFichero();
 }
