@@ -1,14 +1,19 @@
 #include <iostream>
 #include <iterator>
 
+#include <inttypes.h>
+
+#define fori(x) for (int16_t i=0; i < x; ++i)
+#define forj(x) for (int16_t j=0; j < x; ++j)
+
 void identidad ( int16_t** matrix, int16_t size )
 {
 	int16_t aux = 0;
 	int16_t aux1 = 0;
 
-	for ( int i = 0; i < size; ++i )
+	fori(size)
 	{
-		for ( int j = 0; j < size; ++j ) 
+		forj(size) 
 		{
 			if ( i == j && matrix[i][j] != 1 )
 				aux++;
@@ -38,13 +43,13 @@ void leerFichero ()
 	{
 		values = new int16_t* [size];
 
-		for ( int i = 0; i < size; ++i )
+		fori(size) {
 		  values[i] = new int16_t[size];
+        }
 
-
-		for ( int i = 0; i < size; ++i )
+		fori(size)
 		{
-			for ( int j = 0; j < size; ++j ) 
+			forj(size) 
 			{
 				values[i][j] = *iit;
 				iit++;

@@ -1,15 +1,15 @@
 #include <iostream>
-// #include <string>
+#include <inttypes.h>
 
-int main (int argc, char* argv[])
+int main ()
 {
-	int n;
+	int16_t n;
+	int16_t i = 0;
 	std::cin >> n;
 	
-	for (int i = 0; i < n; ++i)
+	while (i < n)
 	{
 		std::cout << "Hola mundo." << std::endl;
+	    ++i;
 	}
-
-	
 }
