@@ -1,42 +1,30 @@
 #include <iostream>
-#include <iterator>
+#include <string>
 
-struct Coord
+int main() 
 {
-  int x1 = 0;
-  int x2 = 0;
-  int y1 = 0;
-  int y2 = 0;
+ uint16_t x1;
+ uint16_t x2;
+ uint16_t y1;
+ uint16_t y2;
+ 
+ std::ios::sync_with_stdio (false);
+ 
+ std::string salida = "";
+ int a = 0;
+ 
+ while (std::cin >> x1 >> y1 >> x2 >> y2)
+ {
+	if (y2 >= y1 && x2 >= x1)
+	{
+		salida += std::to_string((y2 - y1) * (x2 - x1))+"\n";
+	}
+    
+    else 
+    	break;
+ }
+	std::cout << salida;
 
-  friend std::istream&
-  operator >> (std::istream& in, Coord& p_c)
-  {
-    return in >> p_c.x1
-              >> p_c.y1
-              >> p_c.x2
-              >> p_c.y2;
-  }
+ return 0;
 
-  inline Coord& operator = (Coord c)
-  {
-    x1 = c.x1;
-    x2 = c.x2;
-    y1 = c.y1;
-    y2 = c.y2;
-    return *this;
-  }
-};
-
-int main ()
-{
-  std::istream_iterator<Coord> iit (std::cin);
-  Coord c = *iit;
-
-  while (!(c.x2 < c.x1) || !(c.y2 < c.y1))
-  {
-    std::cout << (c.x2 - c.x1) * (c.y2 - c.y1) << std::endl;
-    c = *(++iit);
-  }
-
-  return 0;
 }
