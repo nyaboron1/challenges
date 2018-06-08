@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cinttypes>
-#include <string.h>
+#include <string>
 
 // guardar la frase sin espacios y en minusculas
 void LeerFrase (char* frase, int16_t& size)
@@ -22,7 +22,12 @@ int main ()
 	char* frase = new char [200];
 	int16_t size = 0;
 
+	std::ios::sync_with_stdio (false);
+
 	LeerFrase (frase, size);
+	std::cout << "FRASE: \n" << frase << std::endl;
+	
+	std::string salida;
 
 	while (frase[1] != 'X')
 	{
@@ -43,9 +48,10 @@ int main ()
 		}
 
 		if (ok == false)
-			std::cout << "NO" << std::endl;
+			salida += "NO\n";
+			
 		else
-			std::cout << "SI" << std::endl;
+			salida += "SI\n";
 
 		if (frase != nullptr)
 		{
@@ -55,5 +61,8 @@ int main ()
 		}
 
 		LeerFrase(frase, size);
+		std::cout << "FRASE: \n" << frase << std::endl;
 	}
+	
+	std::cout << salida;
 }
