@@ -1,41 +1,74 @@
-
 #include <stdio.h>
-#include <uchar.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
 
-//int leerEntrada( char16_t *c, char16_t *p, char16_t *t );
+#define INT_DIGITS 5
+
+int size = 262144;
+int16_t valores[ 3 ] = { 0 }; // casillas - posicion - tirada
+char linea[ 20 ] = { 0 };
+
+char *itoa(int i, int* size)
+{
+  /* Room for INT_DIGITS digits, - and '\0' */
+  static char buf[INT_DIGITS + 2];
+  char *p = buf + INT_DIGITS + 1; /* points to terminating '\0' */
+  int s = 0;
+  
+  *--p = '\n';
+  do {
+    s++;
+    *--p = '0' + (i % 10);
+    i /= 10;
+  } while (i != 0);
+
+  *size = s;
+  
+  return p;
+}
+
+void separarLinea() {
+  int i = 0;
+  valores[ 0 ] = atoi( linea );
+  for ( ; linea[ i ] != ' '; ++i );
+  ++i;
+  valores[ 1 ] = atoi( linea + i );
+  for ( ; linea[ i ] != ' '; ++i );
+  ++i;
+  valores[ 2 ] = atoi( linea + i );
+} // end separarLinea
 
 int main( void )
 {
-  char16_t casillas,
-     posicion,
-     tirada,
-     posNueva,
-   aux;
+  unsigned int i;
+  int posNueva;
+  char bufferSalida[ size ];
+  char *bufferPtr = bufferSalida;
+
+  setvbuf(stdout, bufferSalida, _IOFBF, sizeof(bufferSalida));
   
-  while ( scanf( "%d %d %d", &casillas, &posicion, &tirada ) && ( casillas != 0 ) ) {
-
-    aux = posicion + tirada;
-
-    if ( aux > casillas ) {
-      //posNueva = casillas - ( aux - casillas );
-       printf( "%d\n", casillas - ( aux - casillas ) );
+  do {
+    fgets( linea, 20, stdin );
+    separarLinea();
+    //printf( "%d %d %d", valores[ 0 ], valores[ 1 ], valores[ 2 ] );
+    
+    if ( valores[ 0 ] == 0 ) break;
+    
+    posNueva = valores[ 1 ] + valores[ 2 ];
+    if ( posNueva > valores[ 0 ] ) {
+      posNueva = valores[ 0 ] - ( posNueva - valores[ 0 ] );
     } // end if
-    else if ( aux == casillas ) {
-      //posNueva = casillas;
-       printf( "%d\n", casillas );
+    else if ( posNueva == valores[ 0 ] ) {
+      posNueva = valores[ 0 ];
     } // end else
-    else {
-      //posNueva = aux;
-       printf( "%d\n", aux );
-    } // end else
+    
+    strcpy( bufferPtr, itoa( posNueva, &i ) );
+    //printf( "%d\n", i );
+    bufferPtr[ i++ ] = '\n';
+    bufferPtr += i;
+  } while( 1 );
 
-    //printf( "%d\n", posNueva );
-  } // end while
-
+  printf( "%s", bufferSalida );
   return 0;
 } // end main
-
-//int leerEntrada( char16_t *c, char16_t *p, char16_t *t )
-//{
-//  return ( 0 != ( scanf( "%u %u %u", c, p, t ) ) && ( *c != 0 ) );
-//} // end leerEntrada
